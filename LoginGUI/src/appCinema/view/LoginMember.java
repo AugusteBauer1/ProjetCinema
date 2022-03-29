@@ -5,7 +5,11 @@
 package appCinema.view;
 
 import static appCinema.LoginGUI.SHA;
+import appCinema.controller.Logincontroller;
 import appCinema.model.DatabaseClient;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -94,7 +98,7 @@ public class LoginMember extends javax.swing.JFrame {
             }
         });
 
-        jTextField4.setText("UserName");
+        jTextField4.setText("Mail Adress");
         jTextField4.setSelectedTextColor(new java.awt.Color(0, 0, 0));
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,14 +179,19 @@ public class LoginMember extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-     DatabaseClient dao = new DatabaseClient();
-        if(dao.exists(jTextField4.getText(), SHA(jPasswordField1.getText()))){
-            JOptionPane.showMessageDialog(this,"Vous etes maintenant connecté!");
-            new MemberMenu().setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this,"Mauvais mdp ou nom!.");
-        }       
+
+        Logincontroller log = new Logincontroller();
+        try {
+            if(log.exist(jTextField4.getText(), SHA(jPasswordField1.getText())) > 0 ){
+                JOptionPane.showMessageDialog(this,"Vous etes maintenant connecté!");
+                new MemberMenu().setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this,"Mauvais mdp ou nom!.");       
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginMember.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed

@@ -4,6 +4,11 @@
  */
 package appCinema.view;
 
+import appCinema.controller.Logincontroller;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,11 +17,26 @@ import javax.swing.JOptionPane;
  */
 public class MemberMenu extends javax.swing.JFrame {
 
+    private Logincontroller log ;
     /**
      * Creates new form MemberMenu
      */
     public MemberMenu() {
         initComponents();
+        
+        log = new Logincontroller();
+        initFilmList();
+    }
+    
+    private void initFilmList() {
+        try {
+            ArrayList<String> films = log.getFilmsTitle();
+            for(int i = 0; i < films.size(); i++){
+                jComboBox1.addItem(films.get(i));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MemberMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -41,7 +61,6 @@ public class MemberMenu extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 0));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Spiderman", "Batman", "Nemo" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -84,8 +103,8 @@ public class MemberMenu extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4))
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -101,10 +120,10 @@ public class MemberMenu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(30, 30, 30)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -122,7 +141,8 @@ public class MemberMenu extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(402, 390));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -144,7 +164,7 @@ String ItemSelected=jComboBox1.getSelectedItem()+ "";
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-Status s= new Status();
+        Status s= new Status();
         s.setVisible(true);
         this.hide(); 
         JOptionPane.showMessageDialog(this,"You are disconected ");// TODO add your handling code here:

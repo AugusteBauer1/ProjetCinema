@@ -4,17 +4,33 @@
  */
 package appCinema.view;
 
+import appCinema.controller.Logincontroller;
+import appCinema.model.Film;
+import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author bourd
  */
 public class FilmAdmin extends javax.swing.JFrame {
 
+    private Logincontroller log;
+
     /**
      * Creates new form FilmAdmin
      */
     public FilmAdmin() {
+        log = new Logincontroller();
         initComponents();
+        InitListFilmAttributes();
     }
 
     /**
@@ -79,27 +95,7 @@ public class FilmAdmin extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Id_Film", "Title", "Release Date"
@@ -187,7 +183,8 @@ public class FilmAdmin extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(408, 383));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void SuppMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppMovieActionPerformed
@@ -195,23 +192,39 @@ public class FilmAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_SuppMovieActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        AdminMenu m= new AdminMenu();
+        AdminMenu m = new AdminMenu();
         m.setVisible(true);
         this.hide();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- if(AddMovie.isSelected()) 
-      {AddFilm af= new AddFilm();
-        af.setVisible(true);
-        this.hide();
-      } 
-      if(SuppMovie.isSelected()) 
-      {SuppFilm sf= new SuppFilm();
-        sf.setVisible(true);
-        this.hide();
-      }         // TODO add your handling code here:
+        if (AddMovie.isSelected()) {
+            AddFilm af = new AddFilm();
+            af.setVisible(true);
+            this.hide();
+        }
+        if (SuppMovie.isSelected()) {
+            SuppFilm sf = new SuppFilm();
+            sf.setVisible(true);
+            this.hide();
+        }         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void InitListFilmAttributes() {
+        try {
+            ArrayList<Film> films = log.getFilms();
+            DefaultTableModel modelTable = (DefaultTableModel)jTable1.getModel();
+            for(int i = 0;i<films.size();i++) {
+                String [] row = new String[3];
+                row[0] =  String.valueOf(films.get(i).getIdfilm());
+                row[1] = films.get(i).getTitreFilm();
+                row[2] =  String.valueOf(films.get(i).getAnneeSortieFilm());
+                modelTable.addRow(row);
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(MemberMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * @param args the command line arguments

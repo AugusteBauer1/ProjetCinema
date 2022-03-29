@@ -5,6 +5,7 @@
 package appCinema;
 
 import appCinema.view.LoginMember;
+import appCinema.view.Status;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -21,31 +22,31 @@ public class LoginGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginMember().setVisible(true);
+                Status s = new Status();
+                s.setVisible(true);
             }
         });
-        
-        //System.out.println(SHA("badjojo"));
+
+        //System.out.println(SHA("CineCine"));
     }
-    
+
     public static String SHA(String input) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256"); 
-            byte hash[] = md.digest(input.getBytes(StandardCharsets.UTF_8));  
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte hash[] = md.digest(input.getBytes(StandardCharsets.UTF_8));
             BigInteger number = new BigInteger(1, hash);
-            StringBuilder hexString = new StringBuilder(number.toString(16)); 
-            while (hexString.length() < 32)  
+            StringBuilder hexString = new StringBuilder(number.toString(16));
+            while (hexString.length() < 32) {
                 hexString.insert(0, '0');
+            }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             System.err.println(e.getMessage());
             return "";
         }
     }
-    
-    
-    
+
 }

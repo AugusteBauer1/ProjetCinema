@@ -5,7 +5,11 @@
 package appCinema.view;
 
 import static appCinema.LoginGUI.SHA;
+import appCinema.controller.Logincontroller;
 import appCinema.model.DatabaseClient;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -70,7 +74,7 @@ public class LoginAdmin extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("AlowCiné");
 
-        jTextField1.setText("AdminName");
+        jTextField1.setText("Mail Adress");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -140,7 +144,8 @@ public class LoginAdmin extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(415, 408));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -148,19 +153,29 @@ public class LoginAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-        DatabaseClient dao = new DatabaseClient();
-        if(dao.exists(jTextField1.getText(), SHA(jPasswordField1.getText()))){
-            JOptionPane.showMessageDialog(this,"Vous etes maintenant connecté!");//afficher un message sur une petite fenetre
+
+        Logincontroller log = new Logincontroller();
+        int isAdmin = -1;
+        try {
+            isAdmin = log.exist(jTextField1.getText(), SHA(jPasswordField1.getText()));
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (isAdmin == 2) {
+            JOptionPane.showMessageDialog(this, "Vous etes maintenant connecté!");//afficher un message sur une petite fenetre
             new AdminMenu().setVisible(true);
             this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this,"Mauvais mdp ou nom!.");
+        } 
+        if(isAdmin == 1){
+            JOptionPane.showMessageDialog(this, "Vous n'êtes pas administrateur !");
+        }
+        if(isAdmin == 0){
+            JOptionPane.showMessageDialog(this, "Mauvais email ou mdp !");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Status s= new Status();
+        Status s = new Status();
         s.setVisible(true);
         this.hide();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
