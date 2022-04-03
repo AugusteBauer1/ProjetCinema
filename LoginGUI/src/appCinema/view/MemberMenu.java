@@ -156,9 +156,13 @@ public class MemberMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-String ItemSelected=jComboBox1.getSelectedItem()+ "";
-        
-        FilmOption fo= new FilmOption();
+        String ItemSelected=jComboBox1.getSelectedItem()+ "";
+        FilmOption fo = null;
+        try {
+            fo = new FilmOption(log.getFilmFromTitle(String.valueOf(jComboBox1.getSelectedItem())).getIdfilm());
+        } catch (SQLException ex) {
+            Logger.getLogger(MemberMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         fo.setVisible(true);
         this.hide();   
     

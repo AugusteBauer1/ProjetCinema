@@ -7,12 +7,16 @@ package appCinema.view;
 import appCinema.controller.ClientController;
 import appCinema.controller.Logincontroller;
 import appCinema.controller.ReductionController;
+import appCinema.controller.SessionController;
 import appCinema.model.Client;
 import appCinema.model.Reduction;
+import appCinema.model.Seance;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,12 +34,16 @@ public class FilmOption extends javax.swing.JFrame {
 
     private ArrayList<Reduction> listReducs;
     private float rate;
+    private float ItemCoast;
+    private int idClient;
+    private String m_idfilm;
     
     /**
      * Creates new form SpidermanFilm
      */
     private ReductionController m_ReduControl;
     private Logincontroller m_clientControl;
+    private SessionController m_sessionControl;
     
     private static float round(float a, int decimal) {
         BigDecimal BD = new BigDecimal(Float.toString(a));
@@ -45,10 +53,33 @@ public class FilmOption extends javax.swing.JFrame {
 
     public FilmOption() {
         rate = 1;
+        ItemCoast = 0;
         m_ReduControl = new ReductionController();
         m_clientControl = new Logincontroller();
+        m_sessionControl = new SessionController();
         initComponents();
         initDiscount();
+        
+    }
+    
+    public FilmOption(int _idFilm) {
+        rate = 1;
+        ItemCoast = 0;
+        m_ReduControl = new ReductionController();
+        m_clientControl = new Logincontroller();
+        m_sessionControl = new SessionController();
+        initComponents();
+        initDiscount();
+        initSession(_idFilm);
+    }
+    
+    public void initSession(int id) {
+        ArrayList<Seance> recup = m_sessionControl.getSeanceFromId(id);
+        for(int i = 0; i<recup.size(); i++) {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            String dateStringuee = dateFormat.format(recup.get(i).getDaySeance());
+            jComboBox2.addItem(dateStringuee +" & "+ recup.get(i).getDebutSeance().toString());
+        }
     }
 
     public static Calendar getCalendar(Date _newDate) {
@@ -59,6 +90,7 @@ public class FilmOption extends javax.swing.JFrame {
 
     public void initDiscount() {
         Client client = m_clientControl.getClient();
+        idClient = client.getIdClient();
         Date dateToday = new Date();
         Calendar naissance = getCalendar(client.getDateNaissanceClient());
         try {
@@ -149,7 +181,6 @@ public class FilmOption extends javax.swing.JFrame {
 
         jLabel7.setText("Please choose a session");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "11:30", "15:00", "17:45", "22:15" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -181,34 +212,38 @@ public class FilmOption extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(11, 11, 11)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabel7)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel10))
+                                .addGap(0, 58, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(46, 46, 46)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel9))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9))
-                    .addComponent(jLabel10)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -216,15 +251,15 @@ public class FilmOption extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel10))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel7)
                 .addGap(18, 18, 18)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -267,7 +302,7 @@ public class FilmOption extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Buying b = new Buying();
+        Buying b = new Buying(ItemCoast,idClient,Integer.parseInt(jComboBox1.getSelectedItem() + ""));
         b.setVisible(true);
         this.hide();         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -275,7 +310,7 @@ public class FilmOption extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         int ItemSelected = Integer.parseInt(jComboBox1.getSelectedItem() + "");
         jLabel5.setText(Integer.toString(ItemSelected));
-        float ItemCoast = 0;
+        
         if(jComboBox3.getSelectedIndex()==0) {
             rate = 1;
         }

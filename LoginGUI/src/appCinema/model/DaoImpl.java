@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -138,6 +140,66 @@ public class DaoImpl implements DaoInterface {
         } catch (SQLException ex) {
             Logger.getLogger(DaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void WriteResa(float _Montant, int IdSeance, int IdClient, int NbPlace) {
+        java.sql.Connection connection = m_DatabaseClient.getConnection();
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            stmt.executeUpdate("INSERT INTO `reservation` (MontantResa, IdResaSeance, IdResaClients,ResaNbPlace) VALUES(\"" + _Montant + "\",\"" + IdSeance + "\", \"" + IdClient + "\","
+                    + "\"" + NbPlace + "\");");
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void WriteSeance(int IdFilm, int idSalle, java.util.Date debut, LocalTime tempsDeb) {
+        java.sql.Connection connection = m_DatabaseClient.getConnection();
+        Statement stmt;
+        SimpleDateFormat Date = new SimpleDateFormat("yyyy-MM--dd");
+        String sqlDate = Date.format(debut);
+        Time time = Time.valueOf(tempsDeb);
+        try {
+            stmt = connection.createStatement();
+            stmt.executeUpdate("INSERT INTO `seance` (IdFilmSeance, IdSalleSeance, DebutSeance, HDebutSeance) VALUES(\"" + IdFilm + "\",\"" + idSalle + "\", \"" + sqlDate + "\","
+                    + "\"" + time + "\");");
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void deleteSession(int id) {
+        java.sql.Connection connection = m_DatabaseClient.getConnection();
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            stmt.executeUpdate("DELETE FROM `seance` WHERE \"" + id + "\"=IdSeance;");
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public ArrayList<Seance> GetSeances() {
+        ArrayList<Seance> seances = new ArrayList<>();
+        java.sql.Connection connection = m_DatabaseClient.getConnection();
+        Statement stmt;
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM seance;");
+            while (rs.next()) {
+                Seance temp = new Seance(rs.getInt("IdSeance"),rs.getInt("IdFilmSeance"), rs.getInt("IdSalleSeance"), rs.getDate("DebutSeance"),rs.getTime("HDebutSeance").toLocalTime());
+                seances.add(temp);
+                //temp.DisplayConsoleFilm();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return seances;
     }
 
     @Override

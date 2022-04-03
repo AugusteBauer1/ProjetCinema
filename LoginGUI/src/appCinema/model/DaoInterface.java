@@ -6,6 +6,7 @@ package appCinema.model;
 
 import java.util.ArrayList;
 import java.sql.*;
+import java.time.LocalTime;
 
 /**
  *
@@ -19,6 +20,10 @@ public interface DaoInterface {
     public void DeleteClient(String _Title);
     public void DeleteReduc(String _Title);
     public Client getCurrentClient();
+    public void deleteSession(int id);
+    public void WriteSeance(int IdFilm, int idSalle, java.util.Date debut, LocalTime tempsDeb);
+    public ArrayList<Seance> GetSeances();
+    public void WriteResa(float _Montant, int IdSeance, int IdClient, int NbPlace);
     public void updateCurrentClient(String _Mail, int _Connect);
     public ArrayList<Reduction> getReductions() throws SQLException; 
     public void WriteReduc(int _AgeMax, int _AgeMin, int _NbPlace,float _Taux , String _TitreReduc, java.util.Date _DateSup,java.util.Date _DateInf);

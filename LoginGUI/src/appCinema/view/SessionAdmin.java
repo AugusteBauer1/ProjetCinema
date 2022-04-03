@@ -4,17 +4,53 @@
  */
 package appCinema.view;
 
+import appCinema.controller.FilmController;
+import appCinema.controller.SessionController;
+import appCinema.model.Film;
+import appCinema.model.Seance;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author bourd
  */
 public class SessionAdmin extends javax.swing.JFrame {
 
+    private SessionController control;
+    private FilmController fControl;
     /**
      * Creates new form SessionAdmin
      */
     public SessionAdmin() {
+        control = new SessionController();
+        fControl = new FilmController();
         initComponents();
+        InitSessionAdmin();
+    }
+    
+    private void InitSessionAdmin () {
+        try {
+            ArrayList<Seance> seances = control.getAllSeances();
+            DefaultTableModel modelTable = (DefaultTableModel)jTable1.getModel();
+            for(int i = 0;i<seances.size();i++) {
+                String [] row = new String[4];
+                Film filmTemp = fControl.getFilmFromId(seances.get(i).getIdFilmSeance());
+                row[0] =  filmTemp.getTitreFilm();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+                row[1] = dateFormat.format(seances.get(i).getDaySeance());
+                row[2] =  seances.get(i).getDebutSeance().toString();
+                row[3] = String.valueOf(seances.get(i).getIdSalleSeance());
+                modelTable.addRow(row);
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(MemberMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -76,24 +112,14 @@ public class SessionAdmin extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Title", "Start Time", "End Time", "Room", "Session number"
+                "Title", "Day", "Start time", "Room"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -128,8 +154,8 @@ public class SessionAdmin extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

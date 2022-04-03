@@ -4,6 +4,7 @@
  */
 package appCinema.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -13,22 +14,32 @@ import java.util.Date;
 public class Seance {
     
     int m_IdSeance, m_IdFilmSeance, m_IdSalleSeance;
-    Date m_DebutSeance, m_FinSeance;
+    Date DaySeance;
+    LocalTime m_debutSeance;
 
-    public void setDebutSeance(Date _DebutSeance) {
-        this.m_DebutSeance = _DebutSeance;
+    public Seance(int m_IdSeance, int m_IdFilmSeance, int m_IdSalleSeance, Date DaySeance, LocalTime m_debutSeance) {
+        this.m_IdSeance = m_IdSeance;
+        this.m_IdFilmSeance = m_IdFilmSeance;
+        this.m_IdSalleSeance = m_IdSalleSeance;
+        this.DaySeance = DaySeance;
+        this.m_debutSeance = m_debutSeance;
     }
 
-    public Date getDebutSeance() {
-        return m_DebutSeance;
+
+    public void setDaySeance(Date _DaySeance) {
+        this.DaySeance = _DaySeance;
     }
 
-    public void setFinSeance(Date _FinSeance) {
-        this.m_FinSeance = _FinSeance;
+    public Date getDaySeance() {
+        return DaySeance;
     }
 
-    public Date getFinSeance() {
-        return m_FinSeance;
+    public void setDebutSeance(LocalTime _DebutSeance) {
+        this.m_debutSeance = _DebutSeance;
+    }
+
+    public LocalTime getDebutSeance() {
+        return m_debutSeance;
     }
 
     public void setIdFilmSeance(int _IdFilmSeance) {
