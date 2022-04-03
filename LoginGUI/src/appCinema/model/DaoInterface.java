@@ -16,5 +16,12 @@ public interface DaoInterface {
     //Client getClient();
     public int AdminMemberExists(String name, String hash);
     public ArrayList<Film> getFilms() throws SQLException;
+    public void DeleteClient(String _Title);
+    public void DeleteReduc(String _Title);
+    public Client getCurrentClient();
+    public void updateCurrentClient(String _Mail, int _Connect);
+    public ArrayList<Reduction> getReductions() throws SQLException; 
+    public void WriteReduc(int _AgeMax, int _AgeMin, int _NbPlace,float _Taux , String _TitreReduc, java.util.Date _DateSup,java.util.Date _DateInf);
+    public void WriteFilm(String _Title,String _Category, int _Duration, int _ReleaseYear,float _Score);
     public void WriteClient(String _name, String _Surname, java.util.Date _BirthDate, String _PhoneNb, String _Email, String _Pw) throws SQLException ;
 }

@@ -4,6 +4,7 @@
  */
 package appCinema.view;
 
+import appCinema.controller.FilmController;
 import appCinema.controller.Logincontroller;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,14 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class MemberMenu extends javax.swing.JFrame {
 
-    private Logincontroller log ;
+    private FilmController log ;
+    private Logincontroller Contlog;
     /**
      * Creates new form MemberMenu
      */
     public MemberMenu() {
         initComponents();
-        
-        log = new Logincontroller();
+        Contlog = new Logincontroller();
+        log = new FilmController();
         initFilmList();
     }
     
@@ -167,6 +169,7 @@ String ItemSelected=jComboBox1.getSelectedItem()+ "";
         Status s= new Status();
         s.setVisible(true);
         this.hide(); 
+        Contlog.setConnection(Contlog.getClient().getMailClient(), 0);
         JOptionPane.showMessageDialog(this,"You are disconected ");// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 

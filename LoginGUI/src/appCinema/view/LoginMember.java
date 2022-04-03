@@ -183,6 +183,7 @@ public class LoginMember extends javax.swing.JFrame {
         Logincontroller log = new Logincontroller();
         try {
             if(log.exist(jTextField4.getText(), SHA(jPasswordField1.getText())) > 0 ){
+                log.setConnection(jTextField4.getText(), 1);
                 JOptionPane.showMessageDialog(this,"Vous etes maintenant connecté!");
                 new MemberMenu().setVisible(true);
                 this.dispose();

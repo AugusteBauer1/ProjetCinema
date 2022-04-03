@@ -2,6 +2,31 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/controller/FilmController.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/SuppSession.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/controller/Logincontroller.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/Status.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/DaoImpl.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/AddFilm.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/controller/ClientController.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/DaoInterface.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/AddDiscount.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/LoginGuest.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/controller/ReductionController.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/SuppDiscount.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/Client.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/AddSession.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/AccountCreation.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/LoginMember.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/DatabaseClient.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/LoginAdmin.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/Film.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/LoginGUI.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/model/Reduction.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/controller/MotherController.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/Buying.java</file>
+            <file>file:/C:/Users/augus/OneDrive/Bureau/ING3/ProjetCinema/LoginGUI/src/appCinema/view/FilmOption.java</file>
+        </group>
     </open-files>
 </project-private>

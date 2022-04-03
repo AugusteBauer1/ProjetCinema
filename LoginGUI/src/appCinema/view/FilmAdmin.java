@@ -4,7 +4,7 @@
  */
 package appCinema.view;
 
-import appCinema.controller.Logincontroller;
+import appCinema.controller.FilmController;
 import appCinema.model.Film;
 import java.util.List;
 import java.sql.SQLException;
@@ -22,15 +22,15 @@ import javax.swing.table.TableModel;
  */
 public class FilmAdmin extends javax.swing.JFrame {
 
-    private Logincontroller log;
+    private FilmController log;
 
     /**
      * Creates new form FilmAdmin
      */
     public FilmAdmin() {
-        log = new Logincontroller();
+        log = new FilmController();
         initComponents();
-        InitListFilmAttributes();
+        InitListFilmAttributes();  //fonction afficher les films dans une Jtable
     }
 
     /**
@@ -189,6 +189,7 @@ public class FilmAdmin extends javax.swing.JFrame {
 
     private void SuppMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SuppMovieActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_SuppMovieActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

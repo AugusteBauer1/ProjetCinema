@@ -13,7 +13,7 @@ public class Film {
     float m_NoteFilm;
     String m_TitreFilm, m_CategorieFilm;
     
-    Film(int _Idfilm,int _Dureefilm,int _AnneeSortieFilm,float _NoteFilm,String _Titrefilm,String _CategorieFilm) {
+    public Film(int _Idfilm,int _Dureefilm,int _AnneeSortieFilm,float _NoteFilm,String _Titrefilm,String _CategorieFilm) {
         m_Idfilm = _Idfilm;
         m_Dureefilm = _Dureefilm;
         m_AnneeSortieFilm = _AnneeSortieFilm;

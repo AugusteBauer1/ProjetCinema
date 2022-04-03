@@ -12,8 +12,29 @@ import java.util.Date;
  */
 public class Client {
     int m_IdClient, m_Admin;
+    int m_Connection;
     String m_NomClient, m_PrenomClient, m_MailClient, m_MdpClient, m_NumTelClient;
     Date m_DateNaissanceClient;
+
+    public Client(int m_IdClient, int m_Admin, int m_Connection, String m_NomClient, String m_PrenomClient, String m_MailClient, String m_MdpClient, String m_NumTelClient, Date m_DateNaissanceClient) {
+        this.m_IdClient = m_IdClient;
+        this.m_Admin = m_Admin;
+        this.m_Connection = m_Connection;
+        this.m_NomClient = m_NomClient;
+        this.m_PrenomClient = m_PrenomClient;
+        this.m_MailClient = m_MailClient;
+        this.m_MdpClient = m_MdpClient;
+        this.m_NumTelClient = m_NumTelClient;
+        this.m_DateNaissanceClient = m_DateNaissanceClient;
+    }
+
+    public void setConnection(int _Connection) {
+        this.m_Connection = m_Connection;
+    }
+
+    public int isConnection() {
+        return m_Connection;
+    }
 
     public int getAdmin() {
         return m_Admin;

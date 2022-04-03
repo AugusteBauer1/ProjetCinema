@@ -5,7 +5,7 @@
 package appCinema.view;
 
 import static appCinema.LoginGUI.SHA;
-import appCinema.controller.Logincontroller;
+import appCinema.controller.ClientController;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -172,7 +172,7 @@ public class AccountCreation extends javax.swing.JFrame {
         
         Date birthDate;
         birthDate = jDateChooser1.getDate();
-        Logincontroller log = new Logincontroller();
+        ClientController log = new ClientController();
         try {
             log.doWriteClient(jTextField1.getText(), jTextField2.getText(), birthDate, jTextField4.getText(),jTextField5.getText(), SHA(jPasswordField1.getText()));
         } catch (SQLException ex) {

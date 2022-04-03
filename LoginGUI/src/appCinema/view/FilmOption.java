@@ -4,17 +4,86 @@
  */
 package appCinema.view;
 
+import appCinema.controller.ClientController;
+import appCinema.controller.Logincontroller;
+import appCinema.controller.ReductionController;
+import appCinema.model.Client;
+import appCinema.model.Reduction;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Calendar;
+import static java.util.Calendar.YEAR;
+import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author bourd
  */
 public class FilmOption extends javax.swing.JFrame {
 
+    private ArrayList<Reduction> listReducs;
+    private float rate;
+    
     /**
      * Creates new form SpidermanFilm
      */
+    private ReductionController m_ReduControl;
+    private Logincontroller m_clientControl;
+    
+    private static float round(float a, int decimal) {
+        BigDecimal BD = new BigDecimal(Float.toString(a));
+        BD = BD.setScale(decimal, BigDecimal.ROUND_HALF_UP);
+        return BD.floatValue();
+    }
+
     public FilmOption() {
+        rate = 1;
+        m_ReduControl = new ReductionController();
+        m_clientControl = new Logincontroller();
         initComponents();
+        initDiscount();
+    }
+
+    public static Calendar getCalendar(Date _newDate) {
+        Calendar frTime = Calendar.getInstance(Locale.FRANCE);
+        frTime.setTime(_newDate);
+        return frTime;
+    }
+
+    public void initDiscount() {
+        Client client = m_clientControl.getClient();
+        Date dateToday = new Date();
+        Calendar naissance = getCalendar(client.getDateNaissanceClient());
+        try {
+            listReducs = m_ReduControl.getReduc();
+        } catch (SQLException ex) {
+            Logger.getLogger(FilmOption.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (int i = 0; i < listReducs.size(); i++) {
+            Calendar day = getCalendar(dateToday);
+            
+            int age = day.get(YEAR) - naissance.get(YEAR);
+            if (listReducs.get(i).getNbPlace() == -1) {
+                if (listReducs.get(i).getAgeMax() != -1 && listReducs.get(i).getAgeMax() > age) {
+                    jComboBox3.addItem(listReducs.get(i).getTitreReduc());
+                }
+                if (listReducs.get(i).getAgeMin() != -1 && listReducs.get(i).getAgeMin() < age) {
+                    jComboBox3.addItem(listReducs.get(i).getTitreReduc());
+                }
+            }
+            else {
+                if (listReducs.get(i).getNbPlace() <= Integer.parseInt(jComboBox1.getSelectedItem() + "")){
+                    jComboBox3.addItem(listReducs.get(i).getTitreReduc());
+                } 
+            }
+        }
     }
 
     /**
@@ -40,6 +109,8 @@ public class FilmOption extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,20 +158,35 @@ public class FilmOption extends javax.swing.JFrame {
 
         jLabel8.setText("Session Time :");
 
+        jLabel10.setText("Please select a Discount");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No Discount" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -109,7 +195,6 @@ public class FilmOption extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -122,19 +207,24 @@ public class FilmOption extends javax.swing.JFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel9))
-                    .addComponent(jLabel7))
-                .addGap(71, 71, 71))
+                    .addComponent(jLabel10)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jLabel7)
+                .addGap(71, 71, 71)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10))
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -171,77 +261,41 @@ public class FilmOption extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-MemberMenu mm= new MemberMenu();
+        MemberMenu mm = new MemberMenu();
         mm.setVisible(true);
         this.hide();           // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-Buying b= new Buying();
+        Buying b = new Buying();
         b.setVisible(true);
         this.hide();         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-String ItemSelected=jComboBox1.getSelectedItem()+ "";
-        jLabel5.setText (ItemSelected);
-        double ItemCoast=0;
-        if(ItemSelected.equals("1"))
-        {
-            ItemCoast=6;
-            jLabel6.setText ("$"+ItemCoast);
+        int ItemSelected = Integer.parseInt(jComboBox1.getSelectedItem() + "");
+        jLabel5.setText(Integer.toString(ItemSelected));
+        float ItemCoast = 0;
+        if(jComboBox3.getSelectedIndex()==0) {
+            rate = 1;
         }
-        if(ItemSelected.equals("2"))
-        {
-            ItemCoast=6*2;
-            jLabel6.setText ("$"+ItemCoast);
+        else {
+            rate = listReducs.get(jComboBox3.getSelectedIndex()).getTaux();
         }
-        if(ItemSelected.equals("3"))
-        {
-            ItemCoast=6*3;
-            jLabel6.setText ("$"+ItemCoast);
-        }
-        if(ItemSelected.equals("4"))
-        {
-            ItemCoast=6*4;
-            jLabel6.setText ("$"+ItemCoast);
-        }
-        if(ItemSelected.equals("5"))
-        {
-            ItemCoast=6*5;
-            jLabel6.setText ("$"+ItemCoast);
-        } 
-        if(ItemSelected.equals("6"))
-        {
-            ItemCoast=6*6;
-            jLabel6.setText ("$"+ItemCoast);
-        }
-        if(ItemSelected.equals("7"))
-        {
-            ItemCoast=6*7;
-            jLabel6.setText ("$"+ItemCoast);
-        } 
-if(ItemSelected.equals("8"))
-        {
-            ItemCoast=6*8;
-            jLabel6.setText ("$"+ItemCoast);
-        } 
-if(ItemSelected.equals("9"))
-        {
-            ItemCoast=6*9;
-            jLabel6.setText ("$"+ItemCoast);
-        } 
-if(ItemSelected.equals("10"))
-        {
-            ItemCoast=6*10;
-            jLabel6.setText ("$"+ItemCoast);
-        } // TODO add your handling code here:
+        ItemCoast = 6 * ItemSelected * rate;
+        ItemCoast = round(ItemCoast,3);
+        jLabel6.setText("$" + Float.toString(ItemCoast));
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-String ItemSelected=jComboBox2.getSelectedItem()+ "";
-        jLabel9.setText (ItemSelected);        // TODO add your handling code here:
+        String ItemSelected = jComboBox2.getSelectedItem() + "";
+        jLabel9.setText(ItemSelected);        // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,7 +340,9 @@ String ItemSelected=jComboBox2.getSelectedItem()+ "";
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
